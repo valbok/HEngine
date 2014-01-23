@@ -29,7 +29,7 @@ CXXFLAGS += -g -Wall -Wextra -pthread -std=c++0x
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = HEngine_test HEngine_sn_test
+TESTS = HEngine_test HEngine_s_test HEngine_sn_test
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -82,8 +82,18 @@ HEngine_test : HEngine.o HEngine_test.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 
+
 HEngine_s.o : $(USER_DIR)/HEngine_s.cpp $(USER_DIR)/HEngine_s.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_s.cpp
+
+HEngine_s_test.o : $(USER_DIR)/HEngine_s_test.cpp \
+                     $(USER_DIR)/HEngine_s.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_s_test.cpp
+
+HEngine_s_test : HEngine.o HEngine_s.o HEngine_sn.o HEngine_s_test.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+
+
 
 HEngine_sn.o : $(USER_DIR)/HEngine_sn.cpp $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_sn.cpp
@@ -94,3 +104,5 @@ HEngine_sn_test.o : $(USER_DIR)/HEngine_sn_test.cpp \
 
 HEngine_sn_test : HEngine.o HEngine_s.o HEngine_sn.o HEngine_sn_test.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+
+

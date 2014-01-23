@@ -25,9 +25,8 @@ protected:
 
 public:
     HEngine_sn( Table db, unsigned k, unsigned r = 0 ): HEngine_s( db, k, r ) { build();}
-    Table query( BinStr ) const { return Table(); }
-    Table query( Number ) const { return Table(); }
-    Table permute( const BinStr& ) const;
+    QueryResult query( const BinStr& ) const;
+    QueryResult query( const Number& ) const;
 };
 
 } // namespace

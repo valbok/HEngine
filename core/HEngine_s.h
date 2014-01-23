@@ -18,17 +18,23 @@ namespace hengine
 {
 
 /**
- * Permuted by segmentation factor and original string
+ * List of permuted substrings using segmentation factor
+ * @see rcut() and permute()
  */
-typedef std::pair<BinStr,BinStr> Pair;
+typedef std::vector<Table> Permutations;
 
 /**
- * i-th element is an index of substring placed to front
+ * Original string and list of permuted by segmentation factor
+ */
+typedef std::pair<BinStr, Table> Pair;
+
+/**
+ * i-th element is an index of substring placed to front of the string
  */
 typedef std::vector<Pair> SignatureTable;
 
 /**
- * List of signature tables.
+ * List of signature tables
  */
 typedef std::vector<SignatureTable> SignatureSet;
 
@@ -82,7 +88,9 @@ public:
     Table rcut( const BinStr& ) const;
     Table rcut( const Number& ) const;
 
-    inline unsigned getHammingDistance() const
+    Permutations permute( const BinStr&, Table rcuts = Table() ) const;
+
+    inline unsigned getHammingDistanceBound() const
     {
         return m_k;
     }
@@ -92,10 +100,31 @@ public:
         return m_r;
     }
 
-    const SignatureSet& getSignatureSet()
+    const SignatureSet& getSignatureSet() const
     {
         return m_set;
     }
+
+    /**
+     * Generates all possible substrings that are within Hamming distance 1
+     */
+    static Table generateRange( const BinStr& );
+
+    /**
+     * Sorts tables and sets to use binary searching.
+     * Sorts ONLY per first permuted substring.
+     */
+    static bool sortPairsCmp( const Pair& i, const Pair& j );
+    static void sortSignatureTable( SignatureTable& );
+    static void sortSignatureSet( SignatureSet& );
+
+    /**
+     * Searches string in signature table using binary search.
+     * It handles ONLY first substring/item from permuted table.
+     */
+    static Pair searchPair( const SignatureTable&, const BinStr& );
+    static Pair searchPair( const SignatureTable&, const Pair& );
+
 };
 
 } // namespace

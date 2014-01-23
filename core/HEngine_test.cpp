@@ -34,3 +34,34 @@ TEST( HEngine, Dec2bin )
     n = HEngine::dec2bin( 18446744073709551615ull );
     EXPECT_EQ( "1111111111111111111111111111111111111111111111111111111111111111", n );
 }
+
+TEST( HEngine, HamminDistance )
+{
+    auto d = HEngine::getHammingDistance( HEngine::bin2dec( "1111" ), HEngine::bin2dec( "0000" ) );
+    EXPECT_EQ( 4, d );
+
+    d = HEngine::getHammingDistance( "1111", "1111" );
+    EXPECT_EQ( 0, d );
+
+    d = HEngine::getHammingDistance( "1111", "1110" );
+    EXPECT_EQ( 1, d );
+
+    d = HEngine::getHammingDistance( "1111", "0110" );
+    EXPECT_EQ( 2, d );
+
+    d = HEngine::getHammingDistance( "1111", "0100" );
+    EXPECT_EQ( 3, d );
+
+    d = HEngine::getHammingDistance( "1111111111111111111111111111111111111111111111111111111111111111", "1111111111111111111111111111111111111111111111111111111111111111" );
+    EXPECT_EQ( 0, d );
+
+    d = HEngine::getHammingDistance( "1111111111111111111111111111111111111111111111111111111111111111", "1111111111111111111111111111111111111111111111111111111111111110" );
+    EXPECT_EQ( 1, d );
+
+    d = HEngine::getHammingDistance( "0000000000000000000000000000000000000000000000000000000000000000", "1111111111111111111111111111111111111111111111111111111111111111" );
+    EXPECT_EQ( 64, d );
+
+    d = HEngine::getHammingDistance( 1, 3 );
+    EXPECT_EQ( 1, d );
+
+}

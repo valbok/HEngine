@@ -4,35 +4,13 @@
  * @license GNU GPL v2
  */
 
-
+#include <algorithm>
 #include "HEngine_sn.h"
+
+#include <map>
 
 namespace hengine
 {
-
-Table HEngine_sn::permute( const BinStr &item ) const
-{
-    Table result;
-    // First string must be the same as requested
-    result.push_back( item );
-    Table rcuts = rcut( item );
-    for ( unsigned i = 1; i < m_r; i++ )
-    {
-        auto first = rcuts[0];
-        rcuts[0] = rcuts[i];
-        rcuts[i] = first;
-
-        BinStr str;
-        for ( auto &s: rcuts )
-        {
-            str += s;
-        }
-
-        result.push_back( str );
-    }
-
-    return result;
-}
 
 void HEngine_sn::build()
 {
@@ -44,13 +22,59 @@ void HEngine_sn::build()
 
     for ( auto &item: m_db )
     {
-        auto ps = permute( item );
-        // Size of ps must be the same as m_r
+        auto rcuts = rcut( item );
+        auto ps = permute( item, rcuts );
         for ( unsigned i = 0; i < m_r; i++ )
         {
-            m_set[i].push_back( std::make_pair( ps[i], item ) );
+            auto t = ps[i];
+            m_set[i].push_back( std::make_pair( item, t ) );
         }
     }
+
+    sortSignatureSet( m_set );
+}
+
+QueryResult HEngine_sn::query( const Number& num ) const
+{
+    return query( dec2bin( num ) );
+}
+
+QueryResult HEngine_sn::query( const BinStr& item ) const
+{
+    std::map<BinStr, BinStr> m;
+    auto rcuts = rcut( item );
+    auto ps = permute( item, rcuts );
+    for ( unsigned i = 0; i < ps.size(); i++ )
+    {
+        auto table = m_set[i];
+        auto p = ps[i];
+        auto cut = rcuts[i];
+
+        // Generate all possible substrings that are within Hamming distance 1 of the first substring of cut
+        // and then perform an exact match query on this substring in table using binary search.
+        auto range = generateRange( cut );
+
+        for ( auto &sub: range )
+        {
+            auto p = searchPair( table, sub );
+            if ( p.first != "" and !m.count( p.first ) )
+            {
+                m[p.first] = sub;
+            }
+        }
+    }
+
+    QueryResult result;
+    for ( auto &f: m )
+    {
+        unsigned d = getHammingDistance( f.first, item );
+        if ( d <= m_k )
+        {
+            result.push_back( std::make_pair( f.first, d ) );
+        }
+    }
+
+    return result;
 }
 
 } // namespace

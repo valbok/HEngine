@@ -6,9 +6,6 @@
 
 /**
  * Base abstract class to handle various versions of HEngine algorithm
- * proposed by Alex X. Liu, Ke Shen, Eric Torng
- * in their paper "Large Scale Hamming Distance Query Processing".
- * ICDE Conference, pages 553 - 564, 2011.
  */
 
 #ifndef HENGINE_H
@@ -40,6 +37,12 @@ typedef std::vector<Number> NumTable;
  */
 typedef std::vector<BinStr> Table;
 
+/**
+ * Result of querying.
+ * List of found string and hamming distance to requested.
+ */
+typedef std::vector<std::pair<BinStr, unsigned>> QueryResult;
+
 class HEngine
 {
 
@@ -55,14 +58,20 @@ public:
     /**
      * Base functions to proceed querying the database
      */
-    virtual Table query( BinStr ) const = 0;
-    virtual Table query( Number ) const = 0;
+    virtual QueryResult query( const BinStr& ) const = 0;
+    virtual QueryResult query( const Number& ) const = 0;
 
     /**
-     * Convertors
+     * Convertors from number to bin string and vica versa
      */
     static Number bin2dec( std::string );
     static std::string dec2bin( Number );
+
+    /**
+     * Calculates actual hamming distance between numbers or bin strings
+     */
+    static Number getHammingDistance( Number, Number );
+    static Number getHammingDistance( BinStr, BinStr );
 };
 
 } // namespace
