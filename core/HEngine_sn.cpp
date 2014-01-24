@@ -8,6 +8,7 @@
 #include "HEngine_sn.h"
 
 #include <map>
+#include <iostream>
 
 namespace hengine
 {
@@ -43,12 +44,12 @@ QueryResult HEngine_sn::query( const BinStr& item ) const
 {
     std::map<BinStr, BinStr> m;
     auto rcuts = rcut( item );
-    auto ps = permute( item, rcuts );
+    const Permutations ps = permute( item, rcuts );
     for ( unsigned i = 0; i < ps.size(); i++ )
     {
-        auto table = m_set[i];
-        auto p = ps[i];
-        auto cut = rcuts[i];
+        const SignatureTable &table = m_set[i];
+        //const Table &p = ps[i];
+        const BinStr &cut = rcuts[i];
 
         // Generate all possible substrings that are within Hamming distance 1 of the first substring of cut
         // and then perform an exact match query on this substring in table using binary search.
@@ -57,7 +58,7 @@ QueryResult HEngine_sn::query( const BinStr& item ) const
         for ( auto &sub: range )
         {
             auto p = searchPair( table, sub );
-            if ( p.first != "" and !m.count( p.first ) )
+            if ( p.first != "" )
             {
                 m[p.first] = sub;
             }

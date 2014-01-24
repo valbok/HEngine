@@ -6,8 +6,6 @@
 #include "HEngine_sn.h"
 #include "gtest/gtest.h"
 
-#include <algorithm>
-
 using namespace hengine;
 
 TEST( HEngine_sn, DefaultConstructor )
