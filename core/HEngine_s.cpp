@@ -6,18 +6,18 @@
 
 #include "HEngine_s.h"
 #include <algorithm>
-
+#include <iostream>
 namespace hengine
 {
 
-Table HEngine_s::rcut( const Number &num ) const
+BinTable HEngine_s::rcut( const Number &num ) const
 {
-    return rcut( HEngine::dec2bin( num ) );
+    return rcut( HEngine::number2BinStr( num ) );
 }
 
-Table HEngine_s::rcut( const BinStr &item ) const
+BinTable HEngine_s::rcut( const BinStr &item ) const
 {
-    Table result;
+    BinTable result;
     unsigned q = 64 / m_r;
 
     for ( unsigned i = 0; i < m_r; i++ )
@@ -34,7 +34,7 @@ Table HEngine_s::rcut( const BinStr &item ) const
     return result;
 }
 
-Permutations HEngine_s::permute( const BinStr &item, Table rcuts ) const
+Permutations HEngine_s::permute( const BinStr &item, BinTable rcuts ) const
 {
     Permutations result;
     if ( rcuts.size() == 0 )
@@ -48,7 +48,7 @@ Permutations HEngine_s::permute( const BinStr &item, Table rcuts ) const
         rcuts[0] = rcuts[i];
         rcuts[i] = first;
 
-        Table t;
+        BinTable t;
         for ( auto &s: rcuts )
         {
             t.push_back( s );
@@ -60,9 +60,9 @@ Permutations HEngine_s::permute( const BinStr &item, Table rcuts ) const
     return result;
 }
 
-Table HEngine_s::generateRange( const BinStr &item )
+BinTable HEngine_s::generateRange( const BinStr &item )
 {
-    Table result;
+    BinTable result;
     result.push_back( item );
     for ( unsigned i = 0; i < item.length(); i++ )
     {
@@ -73,7 +73,7 @@ Table HEngine_s::generateRange( const BinStr &item )
     return result;
 }
 
-bool HEngine_s::sortPairsCmp( const Pair& i, const Pair& j )
+bool HEngine_s::sortPairsCmp( const Pair &i, const Pair &j )
 {
     return ( i.second[0] < j.second[0] );
 }
@@ -91,22 +91,37 @@ void HEngine_s::sortSignatureSet( SignatureSet &set )
     }
 }
 
-Pair HEngine_s::searchPair( const SignatureTable& table, const BinStr& val )
+SignatureTable HEngine_s::searchPairs( const SignatureTable &table, const BinStr &val, const BinStr item, Matches *q, const unsigned k )
 {
-    Table v;
+    BinTable v;
     v.push_back( val );
 
-    return searchPair( table, std::make_pair( "", v ) );
+    return searchPairs( table, std::make_pair( "", v ), item, q, k );
 }
 
-Pair HEngine_s::searchPair( const SignatureTable& table, const Pair& val )
+SignatureTable HEngine_s::searchPairs( const SignatureTable &table, const Pair &val, const BinStr item, Matches *q, const unsigned k )
 {
-    auto i = std::lower_bound( table.begin(), table.end(), val, sortPairsCmp );
+    SignatureTable result;
+    auto li = std::lower_bound( table.begin(), table.end(), val, sortPairsCmp );
+    auto ui = std::upper_bound( li, table.end(), val, sortPairsCmp );
 
-    Pair result;
-    if ( i != table.end() && !( val.second[0] < (*i).second[0] ) )
+    if ( li == table.end() || ui > table.end() )
     {
-        result = *i;
+        return result;
+    }
+
+    unsigned d;
+    for ( auto i = li; i != ui; ++i )
+    {
+        d = ( k >= 64 ) ? k : getHammingDistance( item, (*i).first );
+        if ( d <= k )
+        {
+            result.push_back( *i );
+            if ( q != NULL )
+            {
+                (*q)[(*i).first] = d;
+            }
+        }
     }
 
     return result;

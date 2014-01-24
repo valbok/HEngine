@@ -13,6 +13,7 @@
 
 #include "HEngine.h"
 #include <math.h>
+#include <iterator>
 
 namespace hengine
 {
@@ -21,17 +22,19 @@ namespace hengine
  * List of permuted substrings using segmentation factor
  * @see rcut() and permute()
  */
-typedef std::vector<Table> Permutations;
+typedef std::vector<BinTable> Permutations;
 
 /**
  * Original string and list of permuted by segmentation factor
  */
-typedef std::pair<BinStr, Table> Pair;
+typedef std::pair<BinStr, BinTable> Pair;
 
 /**
  * i-th element is an index of substring placed to front of the string
  */
 typedef std::vector<Pair> SignatureTable;
+
+typedef std::vector<Pair>::const_iterator SignatureTable_const_iterator;
 
 /**
  * List of signature tables
@@ -40,6 +43,8 @@ typedef std::vector<SignatureTable> SignatureSet;
 
 class HEngine_s: public HEngine
 {
+private:
+    static Pair searchPair( const SignatureTable&, const Pair&, SignatureTable_const_iterator );
 
 protected:
 
@@ -66,9 +71,26 @@ protected:
      * @param k Requested hamming distance bound
      * @param r Requested segmentation factor
      */
-    HEngine_s( Table db, unsigned k, unsigned r = 0 )
+    HEngine_s( NumTable db, unsigned k, unsigned r = 0 )
+    {
+        BinTable t;
+        for ( auto &h: db )
+        {
+            t.push_back( HEngine::number2BinStr( h ) );
+        }
+
+        m_db = t;
+        init( k, r );
+    }
+
+    HEngine_s( BinTable db, unsigned k, unsigned r = 0 )
     {
         m_db = db;
+        init( k, r );
+    }
+
+    void init( unsigned k, unsigned r = 0  )
+    {
         m_k = k;
         // m_r must not be less than k/2 + 1
         m_r = r != 0 ? r : floor( ( ( m_k / 2.f ) + 1.f ) + 0.5 );
@@ -85,10 +107,10 @@ public:
      * where the first r − (m mod r) substrings have length ⌊m/r⌋
      * and the last m mod r substrings have length ⌈m/r⌉
      */
-    Table rcut( const BinStr& ) const;
-    Table rcut( const Number& ) const;
+    BinTable rcut( const BinStr& ) const;
+    BinTable rcut( const Number& ) const;
 
-    Permutations permute( const BinStr&, Table rcuts = Table() ) const;
+    Permutations permute( const BinStr&, BinTable rcuts = BinTable() ) const;
 
     inline unsigned getHammingDistanceBound() const
     {
@@ -108,7 +130,7 @@ public:
     /**
      * Generates all possible substrings that are within Hamming distance 1
      */
-    static Table generateRange( const BinStr& );
+    static BinTable generateRange( const BinStr& );
 
     /**
      * Sorts tables and sets to use binary searching.
@@ -122,8 +144,8 @@ public:
      * Searches string in signature table using binary search.
      * It handles ONLY first substring/item from permuted table.
      */
-    static Pair searchPair( const SignatureTable&, const BinStr& );
-    static Pair searchPair( const SignatureTable&, const Pair& );
+    static SignatureTable searchPairs( const SignatureTable&, const BinStr&, const BinStr item = BinStr(), Matches *q = NULL, unsigned k = 64 );
+    static SignatureTable searchPairs( const SignatureTable&, const Pair&, const BinStr item = BinStr(), Matches *q = NULL, unsigned k = 64 );
 
 };
 

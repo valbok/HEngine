@@ -29,7 +29,7 @@ CXXFLAGS += -g -Wall -Wextra -pthread -std=c++0x
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = HEngine_test HEngine_s_test HEngine_sn_test
+TESTS = HEngine_test HEngine_s_test HEngine_sn_test HEngine_sn_dict_test query
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -105,4 +105,15 @@ HEngine_sn_test.o : $(USER_DIR)/HEngine_sn_test.cpp \
 HEngine_sn_test : HEngine.o HEngine_s.o HEngine_sn.o HEngine_sn_test.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
+HEngine_sn_dict_test.o : $(USER_DIR)/HEngine_sn_dict_test.cpp \
+                     $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_sn_dict_test.cpp
+HEngine_sn_dict_test : HEngine.o HEngine_s.o HEngine_sn.o HEngine_sn_dict_test.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
+
+query.o : $(USER_DIR)/query.cpp $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/query.cpp
+
+query : query.o HEngine.o HEngine_s.o HEngine_sn.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@

@@ -24,9 +24,11 @@ protected:
     void build();
 
 public:
-    HEngine_sn( Table db, unsigned k, unsigned r = 0 ): HEngine_s( db, k, r ) { build();}
-    QueryResult query( const BinStr& ) const;
-    QueryResult query( const Number& ) const;
+    HEngine_sn() {}
+    HEngine_sn( BinTable db, unsigned k, unsigned r = 0 ): HEngine_s( db, k, r ) { build();}
+    HEngine_sn( NumTable db, unsigned k, unsigned r = 0 ): HEngine_s( db, k, r ) { build();}
+    Matches query( const BinStr& ) const;
+    Matches query( const Number& ) const;
 };
 
 } // namespace

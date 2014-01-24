@@ -12,14 +12,14 @@ using namespace hengine;
 
 TEST( HEngine_sn, HammingDistance )
 {
-    HEngine_sn e( Table(), 4 );
+    HEngine_sn e( BinTable(), 4 );
 
     EXPECT_EQ( 4, e.getHammingDistanceBound() );
 }
 
 TEST( HEngine_sn, AutSegmentationFactor )
 {
-    HEngine_sn e( Table(), 4 );
+    HEngine_sn e( BinTable(), 4 );
 
     EXPECT_EQ( 4, e.getHammingDistanceBound() );
     EXPECT_EQ( 3, e.getSegmentationFactor() );
@@ -27,7 +27,7 @@ TEST( HEngine_sn, AutSegmentationFactor )
 
 TEST( HEngine_sn, CustomSegmentationFactor )
 {
-    HEngine_sn e( Table(), 4, 4 );
+    HEngine_sn e( BinTable(), 4, 4 );
 
     EXPECT_EQ( 4, e.getHammingDistanceBound() );
     EXPECT_EQ( 4, e.getSegmentationFactor() );
@@ -35,51 +35,51 @@ TEST( HEngine_sn, CustomSegmentationFactor )
 
 TEST( HEngine_sn, SegmentationFactor5 )
 {
-    HEngine_sn e( Table(), 5 );
+    HEngine_sn e( BinTable(), 5 );
 
     EXPECT_EQ( 4, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor6 )
 {
-    HEngine_sn e( Table(), 6 );
+    HEngine_sn e( BinTable(), 6 );
 
     EXPECT_EQ( 4, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor7 )
 {
-    HEngine_sn e( Table(), 7 );
+    HEngine_sn e( BinTable(), 7 );
 
     EXPECT_EQ( 5, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor8 )
 {
-    HEngine_sn e( Table(), 8 );
+    HEngine_sn e( BinTable(), 8 );
 
     EXPECT_EQ( 5, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor9 )
 {
-    HEngine_sn e( Table(), 9 );
+    HEngine_sn e( BinTable(), 9 );
 
     EXPECT_EQ( 6, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor10 )
 {
-    HEngine_sn e( Table(), 10 );
+    HEngine_sn e( BinTable(), 10 );
 
     EXPECT_EQ( 6, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, RCut3 )
 {
-    HEngine_sn e( Table(), 4 );
+    HEngine_sn e( BinTable(), 4 );
 
-    Table t = e.rcut( "1111111111111111111110000000000000000000001111111111111111111111" );
+    BinTable t = e.rcut( "1111111111111111111110000000000000000000001111111111111111111111" );
     EXPECT_EQ( 3, t.size() );
     EXPECT_EQ( "111111111111111111111", t[0] );
     EXPECT_EQ( "000000000000000000000", t[1] );
@@ -88,9 +88,9 @@ TEST( HEngine_sn, RCut3 )
 
 TEST( HEngine_sn, RCut4 )
 {
-    HEngine_sn e( Table(), 4, 4 );
+    HEngine_sn e( BinTable(), 4, 4 );
 
-    Table t = e.rcut( "0000000000000000111111111111111100000000000000001111111111111111" );
+    BinTable t = e.rcut( "0000000000000000111111111111111100000000000000001111111111111111" );
     EXPECT_EQ( 4, t.size() );
     EXPECT_EQ( "0000000000000000", t[0] );
     EXPECT_EQ( "1111111111111111", t[1] );
@@ -100,9 +100,9 @@ TEST( HEngine_sn, RCut4 )
 
 TEST( HEngine_sn, RCut7 )
 {
-    HEngine_sn e( Table(), 7 );
+    HEngine_sn e( BinTable(), 7 );
 
-    Table t = e.rcut( "1111111111110000000000001111111111110000000000001111111111111111" );
+    BinTable t = e.rcut( "1111111111110000000000001111111111110000000000001111111111111111" );
     EXPECT_EQ( 5, t.size() );
     EXPECT_EQ( "111111111111", t[0] );
     EXPECT_EQ( "000000000000", t[1] );
@@ -113,7 +113,7 @@ TEST( HEngine_sn, RCut7 )
 
 TEST( HEngine_sn, Permute )
 {
-    HEngine_sn e( Table(), 4 );
+    HEngine_sn e( BinTable(), 4 );
 
     Permutations t = e.permute( "1111111111111111111110000000000000000000001111111111111111111111" );
     EXPECT_EQ( 3, t.size() );
@@ -132,7 +132,7 @@ TEST( HEngine_sn, Permute )
 
 TEST( HEngine_sn, Permute4 )
 {
-    HEngine_sn e( Table(), 4, 4 );
+    HEngine_sn e( BinTable(), 4, 4 );
 
     Permutations t = e.permute( "0000000000000000111111111111111100000000000000001111111111111111" );
     EXPECT_EQ( 4, t.size() );
@@ -161,7 +161,7 @@ TEST( HEngine_sn, Permute4 )
 TEST( HEngine_sn, Range4 )
 {
     BinStr s = "1111";
-    Table t = HEngine_s::generateRange( s );
+    BinTable t = HEngine_s::generateRange( s );
 
     EXPECT_EQ( 5, t.size() );
     EXPECT_EQ( "1111", t[0] );
@@ -174,7 +174,7 @@ TEST( HEngine_sn, Range4 )
 TEST( HEngine_sn, Range8 )
 {
     BinStr s = "00000000";
-    Table t = HEngine_s::generateRange( s );
+    BinTable t = HEngine_s::generateRange( s );
 
     EXPECT_EQ( 9, t.size() );
     EXPECT_EQ( "00000000", t[0] );
@@ -265,24 +265,24 @@ TEST( HEngine_sn, SortSignatureTable )
 {
     SignatureTable t;
 
-    Table v1;
+    BinTable v1;
     v1.push_back( "1111" );
     v1.push_back( "0000" );
     t.push_back( std::make_pair( "1", v1 ) );
 
-    Table v2;
+    BinTable v2;
     v2.push_back( "1110" );
     t.push_back( std::make_pair( "2", v2 ) );
 
-    Table v3;
+    BinTable v3;
     v3.push_back( "0110" );
     t.push_back( std::make_pair( "3", v3 ) );
 
-    Table v4;
+    BinTable v4;
     v4.push_back( "0000" );
     t.push_back( std::make_pair( "4", v4 ) );
 
-    Table v5;
+    BinTable v5;
     v5.push_back( "0111" );
     t.push_back( std::make_pair( "5", v5 ) );
 
@@ -299,22 +299,22 @@ TEST( HEngine_sn, SortSignatureSet )
 {
     SignatureTable t1;
 
-    Table v1;
+    BinTable v1;
     v1.push_back( "10" );
     v1.push_back( "00" );
     t1.push_back( std::make_pair( "1", v1 ) );
 
-    Table v2;
+    BinTable v2;
     v2.push_back( "00" );
     t1.push_back( std::make_pair( "2", v2 ) );
 
     SignatureTable t2;
 
-    Table v3;
+    BinTable v3;
     v3.push_back( "11" );
     t2.push_back( std::make_pair( "1", v3 ) );
 
-    Table v4;
+    BinTable v4;
     v4.push_back( "01" );
     t2.push_back( std::make_pair( "2", v4 ) );
 
@@ -334,49 +334,97 @@ TEST( HEngine_sn, SignatureSearch )
 {
     SignatureTable t;
 
-    Table v1;
+    BinTable v1;
     v1.push_back( "1111" );
     v1.push_back( "0000" );
     v1.push_back( "0001" );
     v1.push_back( "0011" );
     t.push_back( std::make_pair( "1", v1 ) );
 
-    Table v2;
+    BinTable v2;
     v2.push_back( "1110" );
     t.push_back( std::make_pair( "2", v2 ) );
 
-    Table v3;
+    BinTable v3;
     v3.push_back( "0110" );
     t.push_back( std::make_pair( "3", v3 ) );
 
-    Table v4;
+    BinTable v4;
     v4.push_back( "0000" );
     t.push_back( std::make_pair( "4", v4 ) );
 
-    Table v5;
+    BinTable v5;
     v5.push_back( "0111" );
     t.push_back( std::make_pair( "5", v5 ) );
 
     HEngine_s::sortSignatureTable( t );
 
-    auto p = HEngine_s::searchPair( t, "0000" );
+    auto p = HEngine_s::searchPairs( t, "0000" );
 
-    EXPECT_EQ( "4", p.first );
-    EXPECT_EQ( "0000", p.second[0] );
+    EXPECT_EQ( "4", p[0].first );
+    EXPECT_EQ( "0000", p[0].second[0] );
 
-    p = HEngine_s::searchPair( t, "1001" );
+    p = HEngine_s::searchPairs( t, "1001" );
 
-    EXPECT_EQ( "", p.first );
-    EXPECT_EQ( 0, p.second.size() );
+    EXPECT_EQ( 0, p.size() );
 
-    p = HEngine_s::searchPair( t, "1111" );
+    p = HEngine_s::searchPairs( t, "1111" );
 
-    EXPECT_EQ( "1", p.first );
-    EXPECT_EQ( "1111", p.second[0] );
+    EXPECT_EQ( "1", p[0].first );
+    EXPECT_EQ( "1111", p[0].second[0] );
 
-    p = HEngine_s::searchPair( t, "0100" );
+    p = HEngine_s::searchPairs( t, "0100" );
 
-    EXPECT_EQ( 0, p.second.size() );
-    EXPECT_EQ( "", p.first );
+    EXPECT_EQ( 0, p.size() );
 }
 
+TEST( HEngine_sn, SignatureSearchMultiple )
+{
+    SignatureTable t;
+
+    BinTable v1;
+    v1.push_back( "1111" );
+    t.push_back( std::make_pair( "1", v1 ) );
+
+    BinTable v2;
+    v2.push_back( "0000" );
+    t.push_back( std::make_pair( "0", v2 ) );
+
+    BinTable v3;
+    v3.push_back( "1111" );
+    t.push_back( std::make_pair( "11", v3 ) );
+
+    BinTable v4;
+    v4.push_back( "0000" );
+    t.push_back( std::make_pair( "00", v4 ) );
+
+    BinTable v5;
+    v5.push_back( "0111" );
+    t.push_back( std::make_pair( "5", v5 ) );
+
+    HEngine_s::sortSignatureTable( t );
+
+    auto p = HEngine_s::searchPairs( t, "0000" );
+
+    EXPECT_EQ( 2, p.size() );
+    EXPECT_EQ( "0", p[0].first );
+    EXPECT_EQ( "0000", p[0].second[0] );
+    EXPECT_EQ( "00", p[1].first );
+    EXPECT_EQ( "0000", p[1].second[0] );
+
+    p = HEngine_s::searchPairs( t, "1111" );
+
+    EXPECT_EQ( 2, p.size() );
+    EXPECT_EQ( "1", p[0].first );
+    EXPECT_EQ( "1111", p[0].second[0] );
+    EXPECT_EQ( "11", p[1].first );
+    EXPECT_EQ( "1111", p[1].second[0] );
+
+    p = HEngine_s::searchPairs( t, "1011" );
+    EXPECT_EQ( 0, p.size() );
+
+    p = HEngine_s::searchPairs( t, "0111" );
+    EXPECT_EQ( 1, p.size() );
+    EXPECT_EQ( "5", p[0].first );
+    EXPECT_EQ( "0111", p[0].second[0] );
+}

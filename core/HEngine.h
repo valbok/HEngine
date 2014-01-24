@@ -13,6 +13,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 namespace hengine
 {
@@ -35,13 +36,13 @@ typedef std::vector<Number> NumTable;
 /**
  * Database of strings in binary
  */
-typedef std::vector<BinStr> Table;
+typedef std::vector<BinStr> BinTable;
 
 /**
  * Result of querying.
- * List of found string and hamming distance to requested.
+ * List of found strings and its hamming distance to requested.
  */
-typedef std::vector<std::pair<BinStr, unsigned>> QueryResult;
+typedef std::map<BinStr, unsigned> Matches;
 
 class HEngine
 {
@@ -50,7 +51,7 @@ protected:
     /**
      * Original database of strings
      */
-    Table m_db;
+    BinTable m_db;
 
 public:
     virtual ~HEngine() {}
@@ -58,14 +59,14 @@ public:
     /**
      * Base functions to proceed querying the database
      */
-    virtual QueryResult query( const BinStr& ) const = 0;
-    virtual QueryResult query( const Number& ) const = 0;
+    virtual Matches query( const BinStr& ) const = 0;
+    virtual Matches query( const Number& ) const = 0;
 
     /**
      * Convertors from number to bin string and vica versa
      */
-    static Number bin2dec( std::string );
-    static std::string dec2bin( Number );
+    static Number binStr2Number( std::string );
+    static std::string number2BinStr( Number );
 
     /**
      * Calculates actual hamming distance between numbers or bin strings

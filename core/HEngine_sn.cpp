@@ -23,59 +23,56 @@ void HEngine_sn::build()
 
     for ( auto &item: m_db )
     {
-        auto rcuts = rcut( item );
-        auto ps = permute( item, rcuts );
+        //std::cout << "bi " << item << std::endl;
+        auto ps = permute( item );
         for ( unsigned i = 0; i < m_r; i++ )
         {
-            auto t = ps[i];
-            m_set[i].push_back( std::make_pair( item, t ) );
+            m_set[i].push_back( std::make_pair( item, ps[i] ) );
         }
     }
 
     sortSignatureSet( m_set );
-}
-
-QueryResult HEngine_sn::query( const Number& num ) const
-{
-    return query( dec2bin( num ) );
-}
-
-QueryResult HEngine_sn::query( const BinStr& item ) const
-{
-    std::map<BinStr, BinStr> m;
-    auto rcuts = rcut( item );
-    const Permutations ps = permute( item, rcuts );
-    for ( unsigned i = 0; i < ps.size(); i++ )
+    /*for ( int i = 0; i < m_set.size(); i++ )
     {
-        const SignatureTable &table = m_set[i];
-        //const Table &p = ps[i];
-        const BinStr &cut = rcuts[i];
-
-        // Generate all possible substrings that are within Hamming distance 1 of the first substring of cut
-        // and then perform an exact match query on this substring in table using binary search.
-        auto range = generateRange( cut );
-
-        for ( auto &sub: range )
+        std::cout << "table " << i << std::endl;
+        for ( int j = 0; j < m_set[i].size(); j++ )
         {
-            auto p = searchPair( table, sub );
-            if ( p.first != "" )
+            for ( int x = 0; x < m_set[i][j].second.size(); x++ )
             {
-                m[p.first] = sub;
+                std::cout << m_set[i][j].second[x];
             }
+            std::cout << std::endl;
         }
+
+        std::cout << std::endl;
+    }*/
+}
+
+Matches HEngine_sn::query( const Number &num ) const
+{
+    return query( number2BinStr( num ) );
+}
+
+Matches HEngine_sn::query( const BinStr &item ) const
+{
+    Matches result;
+    if ( m_set.size() == 0 )
+    {
+        return result;
     }
 
-    QueryResult result;
-    for ( auto &f: m )
+    auto rcuts = rcut( item );
+    for ( unsigned i = 0; i < m_r; i++ )
     {
-        unsigned d = getHammingDistance( f.first, item );
-        if ( d <= m_k )
+        // Generate all possible substrings that are within Hamming distance 1 of the first substring of cut
+        // and then perform an exact match query on this substring in table using binary search.
+        auto range = generateRange( rcuts[i] );
+        for ( auto &sub: range )
         {
-            result.push_back( std::make_pair( f.first, d ) );
+            searchPairs( m_set[i], sub, item, &result, m_k );
         }
     }
 
     return result;
 }
-
 } // namespace

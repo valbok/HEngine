@@ -10,21 +10,21 @@
 namespace hengine
 {
 
-Number HEngine::bin2dec( std::string num )
+Number HEngine::binStr2Number( std::string num )
 {
     std::bitset<64ul> x( num );
 
     return x.to_ullong();
 }
 
-std::string HEngine::dec2bin( Number num )
+std::string HEngine::number2BinStr( Number num )
 {
     return std::bitset<64>( num ).to_string();
 }
 
 Number HEngine::getHammingDistance( BinStr hash1, BinStr hash2 )
 {
-    return getHammingDistance( bin2dec( hash1 ), bin2dec( hash2 ) );
+    return getHammingDistance( binStr2Number( hash1 ), binStr2Number( hash2 ) );
 }
 
 Number HEngine::getHammingDistance( Number hash1, Number hash2 )
