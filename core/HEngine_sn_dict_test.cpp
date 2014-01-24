@@ -86,3 +86,62 @@ TEST_F( SameDictTest, DictQuery )
 
     EXPECT_EQ( db.size(), c );
 }
+
+class LennaFaceDictTest: public testing::Test
+{
+protected:
+
+    virtual void SetUp()
+    {
+        std::string line;
+        std::ifstream dict;
+        dict.open( "data/db/lenna_full.txt", std::ifstream::in );
+        while ( getline( dict, line ) )
+        {
+            Number h;
+
+            std::istringstream reader( line );
+            reader >> h;
+            db.push_back( HEngine::number2BinStr( h ) );
+        }
+
+        dict.close();
+
+        std::ifstream q;
+        q.open( "data/query/matched_lenna_face.txt", std::ifstream::in );
+        while ( getline( q, line ) )
+        {
+            Number h;
+
+            std::istringstream reader( line );
+            reader >> h;
+            query.push_back( HEngine::number2BinStr( h ) );
+        }
+
+        q.close();
+
+        e = HEngine_sn( db, 7 );
+    }
+
+    virtual void TearDown()
+    {
+    }
+
+    BinTable db;
+    BinTable query;
+    HEngine_sn e;
+    time_t start_time;
+};
+
+TEST_F( LennaFaceDictTest, DictQuery )
+{
+    int c = 0;
+    for ( auto &i:query )
+    {
+        Matches res = e.query( i );
+        if ( res.size() > 0 )
+            c++;
+    }
+
+    EXPECT_EQ( query.size(), c );
+}
