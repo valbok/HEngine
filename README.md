@@ -9,7 +9,7 @@ As you can see in an following example, to compute hammind distance and fetch ma
 
     HEngine/tests$ ./query 7 "data/db/table.txt" 
     Reading the dataset ........ done. 752420 hashes
-    Building with 7 hamming distance bound ....... done
+    Building with 7 hamming distance bound ....... done.
       
     Building time: 41.692 seconds
     query> 8149447334979397351
