@@ -5,7 +5,7 @@ Prototype of HEngine concept described by Alex X. Liu, Ke Shen, Eric Torng in th
 
 It is an attempt to solve Hamming distance range query problem in a large scale set.
 
-As you can see in an following example, to compute hammind distance and fetch matched items from set of 752420 values takes around 0.04 sec when lanear searching takes not less 1 sec.
+As you can see in an following example, to compute hammind distance and fetch matched items from set of 752420 values takes around 0.04 sec when Linear searching takes not less 1 sec.
 
     HEngine/tests$ ./query 7 "data/db/table.txt" 
     Reading the dataset ........ done. 752420 hashes
