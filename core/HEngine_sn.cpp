@@ -7,9 +7,6 @@
 #include <algorithm>
 #include "HEngine_sn.h"
 
-#include <map>
-#include <iostream>
-
 namespace hengine
 {
 
@@ -23,7 +20,6 @@ void HEngine_sn::build()
 
     for ( auto &item: m_db )
     {
-        //std::cout << "bi " << item << std::endl;
         auto ps = permute( item );
         for ( unsigned i = 0; i < m_r; i++ )
         {
@@ -32,20 +28,6 @@ void HEngine_sn::build()
     }
 
     sortSignatureSet( m_set );
-    /*for ( int i = 0; i < m_set.size(); i++ )
-    {
-        std::cout << "table " << i << std::endl;
-        for ( int j = 0; j < m_set[i].size(); j++ )
-        {
-            for ( int x = 0; x < m_set[i][j].second.size(); x++ )
-            {
-                std::cout << m_set[i][j].second[x];
-            }
-            std::cout << std::endl;
-        }
-
-        std::cout << std::endl;
-    }*/
 }
 
 Matches HEngine_sn::query( const Number &num ) const
