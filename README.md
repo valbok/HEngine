@@ -5,6 +5,8 @@ Prototype of HEngine concept described by Alex X. Liu, Ke Shen, Eric Torng in th
 
 It is an attempt to solve a Hamming distance range query problem in a large scale set.
 
+Is supposed to handle only 64 bit binary strings.
+
 As you can see in an following example, to compute a hamming distance and fetch matched items from a set of 752420 values takes around 0.04 sec when linear searching takes not less 1 sec.
 
     HEngine/tests$ ./query 7 "data/db/table.txt" 
