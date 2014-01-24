@@ -56,7 +56,7 @@ int main( int argc, char **argv )
 
     HEngine_sn e( db, k );
 
-    std::cout << "done" << std::endl;
+    std::cout << "done." << std::endl;
 
     getrusage( RUSAGE_SELF, &stopTime );
     userTime =
