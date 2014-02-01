@@ -18,7 +18,7 @@ void HEngine_sn::build()
     {
         return;
     }
-    std::ostringstream oss;
+    //std::ostringstream oss;
 
     m_set = SignatureSet();
     for ( unsigned i = 0; i < m_r; i++ )
@@ -43,11 +43,11 @@ void HEngine_sn::build()
         {
             m_set[i].push_back( std::make_pair( item, ps[i][0] ) );
 
-            if ( i < m_r - 1 )
+            /*if ( i < m_r - 1 )
             {
                 oss << ps[i][0];
                 m_filters[i]->insert( oss.str().c_str() );
-            }
+            }*/
         }
     }
 
@@ -68,7 +68,7 @@ Matches HEngine_sn::query( const Number &item ) const
         return result;
     }
 
-    std::ostringstream oss;
+    //std::ostringstream oss;
     auto rcuts = rcut( item );
     for ( unsigned i = 0; i < m_r; i++ )
     {
@@ -77,11 +77,11 @@ Matches HEngine_sn::query( const Number &item ) const
         auto range = generateRange( rcuts[i] );
         for ( auto &sub: range )
         {
-            oss << sub;
+            /*oss << sub;
             if ( i < m_r - 1 && !m_filters[i]->contains( oss.str().c_str() ) )
             {
                 continue;
-            }
+            }*/
 
             SignatureTable pairs = searchPairs( m_set[i], sub, item, &result, m_k );
         }

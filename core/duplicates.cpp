@@ -71,16 +71,18 @@ int main( int argc, char **argv )
 
     getrusage( RUSAGE_SELF, &startTime );
     int c = 0;
+    int s = db.size();
     int i = 0;
     for ( auto &h: db )
     {
 
         Matches res = e.query( h );
         c += res.size();
-        double dd = i / db.size();
-        std::cout <<  "\r" << dd;
+        double dd = i / s;
+        std::cout << dd  << " % " << i << "/" << s << std::endl;
         i++;
     }
+
     getrusage( RUSAGE_SELF, &stopTime );
     userTime =
                 ( (float) ( stopTime.ru_utime.tv_sec  - startTime.ru_utime.tv_sec ) ) +

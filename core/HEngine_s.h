@@ -5,7 +5,7 @@
  */
 
 /**
- * Abstract static implementation of HEngine
+ * Abstract implementation of HEngine using static hamming dinstance bound
  */
 
 #ifndef HENGINE_S_H
