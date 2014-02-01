@@ -14,7 +14,7 @@ Is supposed to handle only 64 bit binary strings.
     Building time: 13.772 seconds
 
     Searching HEngine matches .......
-    found 100 total matches, Query time: 0.24 seconds
+    found 100 total matches. Query time: 0.24 seconds
 
     Searching linear matches .......
     found 100 total matches. Linear query time: 7.104 seconds
