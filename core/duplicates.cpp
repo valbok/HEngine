@@ -76,11 +76,13 @@ int main( int argc, char **argv )
     int i = 0;
     for ( auto &h: db )
     {
-
         Matches res = e.query( h );
         c += res.size();
-        double dd = i / s;
-        std::cout << dd  << " % " << i << "/" << s << std::endl;
+        if ( i % 1000 == 0 )
+        {
+            std::cout << "                                      ";
+            std::cout << "\r" << (i + 0.0)/ s  << " % " << i << "/" << s;
+        }
         i++;
     }
 
@@ -89,17 +91,16 @@ int main( int argc, char **argv )
                 ( (float) ( stopTime.ru_utime.tv_sec  - startTime.ru_utime.tv_sec ) ) +
                 ( (float) ( stopTime.ru_utime.tv_usec - startTime.ru_utime.tv_usec ) ) * 1e-6;
 
-    std::cout << "found " << c  << " total matches. Query time: " << userTime << " seconds" << std::endl << std::endl;
+    std::cout << std::endl << "found " << c  << " total matches. Query time: " << userTime << " seconds" << std::endl << std::endl;
     std::cout << std::endl;
 
 
+    getrusage( RUSAGE_SELF, &startTime );
     std::cout << "Searching linear duplicates ......." << std::endl;
-
+    i = 0;
     for ( auto &h1: db )
     {
         int c = 0;
-        getrusage( RUSAGE_SELF, &startTime );
-
         for ( auto &h2: db )
         {
             unsigned d = HEngine::getHammingDistance( h1, h2 );
@@ -107,17 +108,23 @@ int main( int argc, char **argv )
             {
                 c++;
             }
-
         }
-        getrusage( RUSAGE_SELF, &stopTime );
-        userTime =
-                    ( (float) ( stopTime.ru_utime.tv_sec  - startTime.ru_utime.tv_sec ) ) +
-                    ( (float) ( stopTime.ru_utime.tv_usec - startTime.ru_utime.tv_usec ) ) * 1e-6;
 
-        std::cout << "found " << c  << " total matches. Linear query time: " << userTime << " seconds" << std::endl << std::endl;
-        std::cout << std::endl;
-
+        if ( i % 1000 == 0 )
+        {
+            std::cout << "                                             ";
+            std::cout << "\r" << (i + 0.0)/ s  << " % " << i << "/" << s;
+        }
+        i++;
     }
+
+    getrusage( RUSAGE_SELF, &stopTime );
+    userTime =
+                ( (float) ( stopTime.ru_utime.tv_sec  - startTime.ru_utime.tv_sec ) ) +
+                ( (float) ( stopTime.ru_utime.tv_usec - startTime.ru_utime.tv_usec ) ) * 1e-6;
+
+    std::cout << std::endl << "found " << c  << " total matches. Linear query time: " << userTime << " seconds" << std::endl << std::endl;
+    std::cout << std::endl;
 
 
 
