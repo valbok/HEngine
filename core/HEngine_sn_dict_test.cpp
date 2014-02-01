@@ -11,7 +11,6 @@
 
 using namespace hengine;
 
-
 class SameDictTest: public testing::Test
 {
 protected:
@@ -44,8 +43,8 @@ protected:
         }
 
         q.close();
-
-        e = HEngine_sn( db, 1 );
+        e = new HEngine_sn( 1 );
+        e->build( db );
     }
 
     virtual void TearDown()
@@ -54,7 +53,7 @@ protected:
 
     NumTable db;
     NumTable query;
-    HEngine_sn e;
+    HEngine_sn* e;
 };
 
 TEST_F( SameDictTest, DictQuery )
@@ -62,7 +61,7 @@ TEST_F( SameDictTest, DictQuery )
     int c = 0;
     for ( auto &i:query )
     {
-        Matches res = e.query( i );
+        Matches res = e->query( i );
         for ( auto &ir:res )
         {
             if ( i == ir.first )
@@ -75,6 +74,7 @@ TEST_F( SameDictTest, DictQuery )
 
     EXPECT_EQ( db.size(), c );
 }
+
 
 class LennaFaceDictTest: public testing::Test
 {
@@ -109,7 +109,8 @@ protected:
 
         q.close();
 
-        e = HEngine_sn( db, 7 );
+        e = new HEngine_sn( 7 );
+        e->build( db );
     }
 
     virtual void TearDown()
@@ -118,7 +119,7 @@ protected:
 
     NumTable db;
     NumTable query;
-    HEngine_sn e;
+    HEngine_sn *e;
     time_t start_time;
 };
 
@@ -127,7 +128,7 @@ TEST_F( LennaFaceDictTest, DictQuery )
     int c = 0;
     for ( auto &i:query )
     {
-        Matches res = e.query( i );
+        Matches res = e->query( i );
         if ( res.size() > 0 )
             c++;
     }

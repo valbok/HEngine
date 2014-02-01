@@ -6,7 +6,7 @@
 
 
 /**
- * Non recursive static implementation of HEngine
+ * Non recursive implementation of HEngine using predefined hamming distance bound
  */
 
 #ifndef HENGINE_SN_H
@@ -20,15 +20,13 @@ namespace hengine
 class HEngine_sn: public HEngine_s
 {
 
-protected:
-    void build();
-
 public:
-    HEngine_sn() {}
-    HEngine_sn( BinTable db, unsigned k, unsigned r = 0 ): HEngine_s( db, k, r ) { build();}
-    HEngine_sn( NumTable db, unsigned k, unsigned r = 0 ): HEngine_s( db, k, r ) { build();}
+    HEngine_sn( unsigned k, unsigned r = 0 ): HEngine_s( k, r ) {}
     Matches query( const BinStr& ) const;
     Matches query( const Number& ) const;
+
+    void build( const NumTable& );
+    void build( const BinTable& );
 };
 
 } // namespace

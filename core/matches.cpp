@@ -19,30 +19,6 @@
 #include "HEngine_sn.h"
 
 using namespace hengine;
-/*
-//typedef std::unordered_set<Number> NumList;
-typedef std::list<Number> NumList;
-
-bool sortBinCmp( const BinStr &i, const BinStr &j )
-{
-    return ( i < j );
-}
-
-bool sortNumCmp( const Number &i, const Number &j )
-{
-    return ( i < j );
-}
-
-void sortBinTable( BinTable &table )
-{
-    sort( table.begin(), table.end(), sortBinCmp );
-}
-
-void sortNumTable( NumTable &table )
-{
-    sort( table.begin(), table.end(), sortNumCmp );
-}
-*/
 
 int main( int argc, char **argv )
 {
@@ -94,7 +70,8 @@ int main( int argc, char **argv )
     std::cout << "Building with " << k << " hamming distance bound ....... ";
     fflush( stdout );
 
-    HEngine_sn e( db, k );
+    HEngine_sn e( k );
+    e.build( db );
 
     std::cout << "done." << std::endl;
 
@@ -116,6 +93,7 @@ int main( int argc, char **argv )
     {
         Matches res = e.query( h );
         c += res.size();
+
         /*for ( auto &d : res )
         {
             //std::cout << "[" << d.second << "] "<< std::endl;// << HEngine::binStr2Number( h ) << " -> " << HEngine::binStr2Number( d.first ) << std::endl;

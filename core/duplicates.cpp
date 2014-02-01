@@ -54,7 +54,8 @@ int main( int argc, char **argv )
     std::cout << "Building with " << k << " hamming distance bound ....... ";
     fflush( stdout );
 
-    HEngine_sn e( db, k );
+    HEngine_sn e( k );
+    e.build( db );
 
     std::cout << "done." << std::endl;
 

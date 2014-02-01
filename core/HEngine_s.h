@@ -5,7 +5,7 @@
  */
 
 /**
- * Abstract implementation of HEngine using static hamming dinstance bound
+ * Abstract implementation of HEngine using static predefined hamming dinstance bound
  */
 
 #ifndef HENGINE_S_H
@@ -16,6 +16,7 @@
 
 #include <math.h>
 #include <iterator>
+#include <iostream>
 
 namespace hengine
 {
@@ -58,7 +59,7 @@ protected:
     unsigned m_r;
 
     /**
-     * Signature set of m_db for distance bound m_k and segmentation factor m_r
+     * Signature set of signature table for distance bound m_k and segmentation factor m_r
      */
     SignatureSet m_set;
 
@@ -68,42 +69,14 @@ protected:
     std::vector<bloom_filter*> m_filters;
 
 protected:
-    HEngine_s() {}
-
     /**
      * @param db
      * @param k Requested hamming distance bound
      * @param r Requested segmentation factor
      */
-    HEngine_s( NumTable db, unsigned k, unsigned r = 0 )
+    HEngine_s( unsigned k, unsigned r = 0 )
     {
-        BinTable t;
-        for ( auto &h: db )
-        {
-            t.push_back( HEngine::number2BinStr( h ) );
-        }
-        m_db = db;
         init( k, r );
-    }
-
-    HEngine_s( BinTable db, unsigned k, unsigned r = 0 )
-    {
-        NumTable t;
-        for ( auto &h: db )
-        {
-            t.push_back( HEngine::binStr2Number( h ) );
-        }
-
-        m_db = t;
-        init( k, r );
-    }
-
-    virtual ~HEngine_s()
-    {
-        for( unsigned i = 0; i < m_filters.size(); i++ )
-        {
-            delete m_filters[i];
-        }
     }
 
     void init( unsigned k, unsigned r = 0  )
@@ -113,12 +86,22 @@ protected:
         m_r = r != 0 ? r : floor( ( ( m_k / 2.f ) + 1.f ) + 0.5 );
     }
 
-    /**
-     * Constructs m_r duplicates of m_db one for each signature
-     */
-    void build() {}
 
 public:
+
+    virtual ~HEngine_s()
+    {
+        for( unsigned i = 0; i < m_filters.size(); i++ )
+        {
+            delete m_filters[i];
+        }
+    }
+
+    /**
+     * Constructs m_r duplicates for each signature
+     */
+    void build( const NumTable& ) {}
+
     /**
      * Splits a string into r substrings,
      * where the first r − (m mod r) substrings have length ⌊m/r⌋

@@ -14,6 +14,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <iostream>
 
 namespace hengine
 {
@@ -46,13 +47,6 @@ typedef std::map<Number, unsigned> Matches;
 
 class HEngine
 {
-
-protected:
-    /**
-     * Original database of strings
-     */
-    NumTable m_db;
-    HEngine( const HEngine& ) {}
 
 public:
     HEngine() {}

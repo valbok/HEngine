@@ -10,6 +10,9 @@
 namespace hengine
 {
 
+/**
+ * Precomputed masks for rcut()
+ */
 const Number rcut_m1[] = {
         0b1111111111111111111111111111111111111111111111111111111111111111
     };

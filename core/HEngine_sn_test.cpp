@@ -10,7 +10,7 @@ using namespace hengine;
 
 TEST( HEngine_sn, DefaultConstructor )
 {
-    HEngine_sn e( BinTable(), 0 );
+    HEngine_sn e( 0 );
 }
 
 TEST( HEngine_sn, Build )
@@ -21,7 +21,8 @@ TEST( HEngine_sn, Build )
     t.push_back( "1111111111100000000001111111111100000000001111111111000000000000" );
     t.push_back( "1010101010101010101010101010101010101010101010101010101010101010" );
 
-    HEngine_sn e( t, 4 );
+    HEngine_sn e( 4 );
+    e.build( t );
 
     const SignatureSet set = e.getSignatureSet();
     EXPECT_EQ( 3, set.size() );
@@ -53,7 +54,9 @@ TEST( HEngine_sn, Query4 )
     t.push_back( "0100011010101110111111010000111011110011101100101111110100100011" );
     t.push_back( "0011110110111010111111001010000001010111011100101111110110100001" );
 
-    HEngine_sn e( t, 4 );
+    HEngine_sn e( 4 );
+    e.build( t );
+
     Matches r = e.query( "1111111111111111111110000000000000000000001111111111111111111100" );
     EXPECT_EQ( 1, r.size() );
     EXPECT_EQ( "1111111111111111111110000000000000000000001111111111111111111111", HEngine::number2BinStr( (*(r.begin())).first ) );
@@ -108,7 +111,9 @@ TEST( HEngine_sn, Query0 )
     t.push_back( "0100011010101110111111010000111011110011101100101111110100100011" );
     t.push_back( "0011110110111010111111001010000001010111011100101111110110100001" );
 
-    HEngine_sn e( t, 0 );
+    HEngine_sn e( 0 );
+    e.build( t );
+
     Matches r = e.query( "1111111111111111111110000000000000000000001111111111111111111111" );
     EXPECT_EQ( 1, r.size() );
     EXPECT_EQ( "1111111111111111111110000000000000000000001111111111111111111111", HEngine::number2BinStr( (*(r.begin())).first ) );
@@ -144,7 +149,9 @@ TEST( HEngine_sn, Query1 )
     t.push_back( "0100011010101110111111010000111011110011101100101111110100100011" );
     t.push_back( "0011110110111010111111001010000001010111011100101111110110100001" );
 
-    HEngine_sn e( t, 1 );
+    HEngine_sn e( 1 );
+    e.build( t );
+
     Matches r = e.query( "1111111111111111111110000000000000000000001111111111111111111111" );
     EXPECT_EQ( 1, r.size() );
     EXPECT_EQ( "1111111111111111111110000000000000000000001111111111111111111111", HEngine::number2BinStr( (*(r.begin())).first ) );
@@ -180,7 +187,9 @@ TEST( HEngine_sn, Query7 )
     t.push_back( "0100011010101110111111010000111011110011101100101111110100100011" );
     t.push_back( "0011110110111010111111001010000001010111011100101111110110100001" );
 
-    HEngine_sn e( t, 7 );
+    HEngine_sn e( 7 );
+    e.build( t );
+
     Matches r = e.query( "1111111111111111111110000000000000000000001111111111111111111111" );
     EXPECT_EQ( 1, r.size() );
     EXPECT_EQ( "1111111111111111111110000000000000000000001111111111111111111111", HEngine::number2BinStr( (*(r.begin())).first ) );
@@ -241,7 +250,9 @@ TEST( HEngine_sn, Query10 )
     t.push_back( "0100011010101110111111010000111011110011101100101111110100100011" );
     t.push_back( "0011110110111010111111001010000001010111011100101111110110100001" );
 
-    HEngine_sn e( t, 10 );
+    HEngine_sn e( 10 );
+    e.build( t );
+
     Matches r = e.query( "1111111101111011101110000100010001000100001110111111011110111111" );
     EXPECT_EQ( 1, r.size() );
     EXPECT_EQ( "1111111111111111111110000000000000000000001111111111111111111111", HEngine::number2BinStr( (*(r.begin())).first ) );
@@ -255,7 +266,9 @@ TEST( HEngine_sn, Query0_16 )
         t.push_back( HEngine::number2BinStr( i ) );
     }
 
-    HEngine_sn e( t, 6 );
+    HEngine_sn e( 6 );
+    e.build( t );
+
     Matches r = e.query( 0 );
     EXPECT_EQ( 16, r.size() );
     auto b = r.begin();
@@ -265,4 +278,5 @@ TEST( HEngine_sn, Query0_16 )
         b++;
     }
 }
+
 

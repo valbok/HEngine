@@ -12,13 +12,23 @@
 namespace hengine
 {
 
-void HEngine_sn::build()
+void HEngine_sn::build( const BinTable& db )
 {
-    if ( m_db.size() == 0 )
+    NumTable t;
+    for ( auto &h: db )
+    {
+        t.push_back( binStr2Number( h ) );
+    }
+
+    build( t );
+}
+
+void HEngine_sn::build( const NumTable& db )
+{
+    if ( db.size() == 0 )
     {
         return;
     }
-    //std::ostringstream oss;
 
     m_set = SignatureSet();
     for ( unsigned i = 0; i < m_r; i++ )
@@ -26,33 +36,31 @@ void HEngine_sn::build()
         m_set.push_back( SignatureTable() );
 
         bloom_parameters parameters;
-        parameters.projected_element_count = m_db.size();
-        parameters.false_positive_probability = 0.2; // 1 in 10
+        parameters.projected_element_count = db.size();
+        parameters.false_positive_probability = 0.1; // 1 in 10000
 
         // Simple randomizer (optional)
         parameters.random_seed = i;
         parameters.compute_optimal_parameters();
-
         m_filters.push_back( new bloom_filter( parameters ) );
     }
 
-    for ( auto &item: m_db )
+    for ( auto &item: db )
     {
         auto ps = permute( item );
         for ( unsigned i = 0; i < m_r; i++ )
         {
             m_set[i].push_back( std::make_pair( item, ps[i][0] ) );
 
-            /*if ( i < m_r - 1 )
+            if ( i < m_r - 1 )
             {
-                oss << ps[i][0];
-                m_filters[i]->insert( oss.str().c_str() );
-            }*/
+                m_filters[i]->insert( ps[i][0] );
+            }
         }
     }
 
-    sortSignatureSet( m_set );
 
+    sortSignatureSet( m_set );
 }
 
 Matches HEngine_sn::query( const BinStr &item ) const
@@ -68,7 +76,6 @@ Matches HEngine_sn::query( const Number &item ) const
         return result;
     }
 
-    //std::ostringstream oss;
     auto rcuts = rcut( item );
     for ( unsigned i = 0; i < m_r; i++ )
     {
@@ -77,11 +84,10 @@ Matches HEngine_sn::query( const Number &item ) const
         auto range = generateRange( rcuts[i] );
         for ( auto &sub: range )
         {
-            /*oss << sub;
-            if ( i < m_r - 1 && !m_filters[i]->contains( oss.str().c_str() ) )
+            if ( i < m_r - 1 && !m_filters[i]->contains( sub ) )
             {
                 continue;
-            }*/
+            }
 
             SignatureTable pairs = searchPairs( m_set[i], sub, item, &result, m_k );
         }

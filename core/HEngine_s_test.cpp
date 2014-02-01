@@ -12,14 +12,14 @@ using namespace hengine;
 
 TEST( HEngine_sn, HammingDistance )
 {
-    HEngine_sn e( BinTable(), 4 );
+    HEngine_sn e( 4 );
 
     EXPECT_EQ( 4, e.getHammingDistanceBound() );
 }
 
 TEST( HEngine_sn, AutSegmentationFactor )
 {
-    HEngine_sn e( BinTable(), 4 );
+    HEngine_sn e( 4 );
 
     EXPECT_EQ( 4, e.getHammingDistanceBound() );
     EXPECT_EQ( 3, e.getSegmentationFactor() );
@@ -27,7 +27,7 @@ TEST( HEngine_sn, AutSegmentationFactor )
 
 TEST( HEngine_sn, CustomSegmentationFactor )
 {
-    HEngine_sn e( BinTable(), 4, 4 );
+    HEngine_sn e( 4, 4 );
 
     EXPECT_EQ( 4, e.getHammingDistanceBound() );
     EXPECT_EQ( 4, e.getSegmentationFactor() );
@@ -35,49 +35,49 @@ TEST( HEngine_sn, CustomSegmentationFactor )
 
 TEST( HEngine_sn, SegmentationFactor5 )
 {
-    HEngine_sn e( BinTable(), 5 );
+    HEngine_sn e( 5 );
 
     EXPECT_EQ( 4, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor6 )
 {
-    HEngine_sn e( BinTable(), 6 );
+    HEngine_sn e( 6 );
 
     EXPECT_EQ( 4, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor7 )
 {
-    HEngine_sn e( BinTable(), 7 );
+    HEngine_sn e( 7 );
 
     EXPECT_EQ( 5, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor8 )
 {
-    HEngine_sn e( BinTable(), 8 );
+    HEngine_sn e( 8 );
 
     EXPECT_EQ( 5, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor9 )
 {
-    HEngine_sn e( BinTable(), 9 );
+    HEngine_sn e( 9 );
 
     EXPECT_EQ( 6, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor10 )
 {
-    HEngine_sn e( BinTable(), 10 );
+    HEngine_sn e( 10 );
 
     EXPECT_EQ( 6, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, RCut1 )
 {
-    HEngine_sn e( NumTable(), 0, 1 );
+    HEngine_sn e( 0, 1 );
 
     NumTable t = e.rcut( "1111111111111111111111111111111111111111111111111111111111111111" );
     EXPECT_EQ( 1, t.size() );
@@ -86,7 +86,7 @@ TEST( HEngine_sn, RCut1 )
 
 TEST( HEngine_sn, RCut2 )
 {
-    HEngine_sn e( NumTable(), 0, 2 );
+    HEngine_sn e( 0, 2 );
 
     NumTable t = e.rcut( "1111111111111111111111111111111100000000000000000000000000000000" );
     EXPECT_EQ( 2, t.size() );
@@ -96,7 +96,7 @@ TEST( HEngine_sn, RCut2 )
 
 TEST( HEngine_sn, RCut3 )
 {
-    HEngine_sn e( NumTable(), 0, 3 );
+    HEngine_sn e( 0, 3 );
 
     NumTable t = e.rcut( "1111111111111111111110000000000000000000001111111111111111111111" );
     EXPECT_EQ( 3, t.size() );
@@ -107,7 +107,7 @@ TEST( HEngine_sn, RCut3 )
 
 TEST( HEngine_sn, RCut4 )
 {
-    HEngine_sn e( NumTable(), 0, 4 );
+    HEngine_sn e( 0, 4 );
 
     NumTable t = e.rcut( "1111111111111111000000000000000011111111111111110000000000000000" );
     EXPECT_EQ( 4, t.size() );
@@ -119,7 +119,7 @@ TEST( HEngine_sn, RCut4 )
 
 TEST( HEngine_sn, RCut5 )
 {
-    HEngine_sn e( NumTable(), 0, 5 );
+    HEngine_sn e( 0, 5 );
 
     NumTable t = e.rcut( "1111111111110000000000000111111111111100000000000001111111111111" );
     EXPECT_EQ( 5, t.size() );
@@ -132,7 +132,7 @@ TEST( HEngine_sn, RCut5 )
 
 TEST( HEngine_sn, RCut6 )
 {
-    HEngine_sn e( NumTable(), 0, 6 );
+    HEngine_sn e( 0, 6 );
 
     NumTable t = e.rcut( "1111111111000000000011111111111000000000001111111111100000000000" );
     EXPECT_EQ( 6, t.size() );
@@ -146,7 +146,7 @@ TEST( HEngine_sn, RCut6 )
 
 TEST( HEngine_sn, RCut7 )
 {
-    HEngine_sn e( NumTable(), 0, 7 );
+    HEngine_sn e( 0, 7 );
 
     NumTable t = e.rcut( "1111111110000000001111111110000000001111111110000000001111111111" );
     EXPECT_EQ( 7, t.size() );
@@ -161,7 +161,7 @@ TEST( HEngine_sn, RCut7 )
 
 TEST( HEngine_sn, RCut8 )
 {
-    HEngine_sn e( NumTable(), 0, 8 );
+    HEngine_sn e( 0, 8 );
 
     NumTable t = e.rcut( "1111111100000000111111110000000011111111000000001111111100000000" );
     EXPECT_EQ( 8, t.size() );
@@ -175,11 +175,9 @@ TEST( HEngine_sn, RCut8 )
     EXPECT_EQ( "0000000000000000000000000000000000000000000000000000000000000000", HEngine::number2BinStr( t[7] ) );
 }
 
-
-
 TEST( HEngine_sn, Permute )
 {
-    HEngine_sn e( BinTable(), 4 );
+    HEngine_sn e( 4 );
 
     Permutations t = e.permute( "1111111111111111111110000000000000000000001111111111111111111111" );
     EXPECT_EQ( 3, t.size() );
@@ -198,7 +196,7 @@ TEST( HEngine_sn, Permute )
 
 TEST( HEngine_sn, Permute4 )
 {
-    HEngine_sn e( BinTable(), 4, 4 );
+    HEngine_sn e( 4, 4 );
 
     Permutations t = e.permute( "0000000000000000111111111111111100000000000000001111111111111111" );
     EXPECT_EQ( 4, t.size() );
@@ -225,7 +223,7 @@ TEST( HEngine_sn, Permute4 )
 
 TEST( HEngine_sn, getRCutBitLength2 )
 {
-    HEngine_sn e( BinTable(), 0, 2 );
+    HEngine_sn e( 0, 2 );
     EXPECT_EQ( 32, e.getRCutBitLength( 0 ) );
     EXPECT_EQ( 32, e.getRCutBitLength( 1 ) );
 }
@@ -233,7 +231,7 @@ TEST( HEngine_sn, getRCutBitLength2 )
 
 TEST( HEngine_sn, getRCutBitLength3 )
 {
-    HEngine_sn e( BinTable(), 0, 3 );
+    HEngine_sn e( 0, 3 );
     EXPECT_EQ( 21, e.getRCutBitLength( 0 ) );
     EXPECT_EQ( 21, e.getRCutBitLength( 1 ) );
     EXPECT_EQ( 22, e.getRCutBitLength( 2 ) );
@@ -241,7 +239,7 @@ TEST( HEngine_sn, getRCutBitLength3 )
 
 TEST( HEngine_sn, getRCutBitLength4 )
 {
-    HEngine_sn e( BinTable(), 0, 4 );
+    HEngine_sn e( 0, 4 );
     EXPECT_EQ( 16, e.getRCutBitLength( 0 ) );
     EXPECT_EQ( 16, e.getRCutBitLength( 1 ) );
     EXPECT_EQ( 16, e.getRCutBitLength( 2 ) );
@@ -250,7 +248,7 @@ TEST( HEngine_sn, getRCutBitLength4 )
 
 TEST( HEngine_sn, getRCutBitLength5 )
 {
-    HEngine_sn e( BinTable(), 0, 5 );
+    HEngine_sn e( 0, 5 );
     EXPECT_EQ( 12, e.getRCutBitLength( 0 ) );
     EXPECT_EQ( 13, e.getRCutBitLength( 1 ) );
     EXPECT_EQ( 13, e.getRCutBitLength( 2 ) );
@@ -260,7 +258,7 @@ TEST( HEngine_sn, getRCutBitLength5 )
 
 TEST( HEngine_sn, getRCutBitLength6 )
 {
-    HEngine_sn e( BinTable(), 0, 6 );
+    HEngine_sn e( 0, 6 );
     EXPECT_EQ( 10, e.getRCutBitLength( 0 ) );
     EXPECT_EQ( 10, e.getRCutBitLength( 1 ) );
     EXPECT_EQ( 11, e.getRCutBitLength( 2 ) );
@@ -271,7 +269,7 @@ TEST( HEngine_sn, getRCutBitLength6 )
 
 TEST( HEngine_sn, getRCutBitLength7 )
 {
-    HEngine_sn e( BinTable(), 0, 7 );
+    HEngine_sn e( 0, 7 );
     EXPECT_EQ( 9, e.getRCutBitLength( 0 ) );
     EXPECT_EQ( 9, e.getRCutBitLength( 1 ) );
     EXPECT_EQ( 9, e.getRCutBitLength( 2 ) );
@@ -283,7 +281,7 @@ TEST( HEngine_sn, getRCutBitLength7 )
 
 TEST( HEngine_sn, getRCutBitLength8 )
 {
-    HEngine_sn e( BinTable(), 0, 8 );
+    HEngine_sn e( 0, 8 );
     EXPECT_EQ( 8, e.getRCutBitLength( 0 ) );
     EXPECT_EQ( 8, e.getRCutBitLength( 1 ) );
     EXPECT_EQ( 8, e.getRCutBitLength( 2 ) );
@@ -296,7 +294,7 @@ TEST( HEngine_sn, getRCutBitLength8 )
 
 TEST( HEngine_sn, Range4 )
 {
-    HEngine_sn e( BinTable(), 0, 3 );
+    HEngine_sn e( 0, 3 );
     BinStr s = "111111111111111111111";
     NumTable t = e.generateRange( s );
 
@@ -327,7 +325,7 @@ TEST( HEngine_sn, Range4 )
 
 TEST( HEngine_sn, Range40 )
 {
-    HEngine_sn e( BinTable(), 0, 3 );
+    HEngine_sn e( 0, 3 );
     BinStr s = "1010101010101010101010";
     NumTable t = e.generateRange( s, 2 );
 
@@ -360,7 +358,7 @@ TEST( HEngine_sn, Range40 )
 
 TEST( HEngine_sn, Range8 )
 {
-    HEngine_sn e( BinTable(), 0, 8 );
+    HEngine_sn e( 0, 8 );
     BinStr s = "00000000";
     NumTable t = e.generateRange( s );
 
@@ -440,3 +438,4 @@ TEST( HEngine_sn, SignatureSearchMultiple )
     EXPECT_EQ( 1000, p[0].first );
     EXPECT_EQ( 1000, p[0].second );
 }
+
