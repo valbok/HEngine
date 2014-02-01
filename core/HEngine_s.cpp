@@ -6,13 +6,10 @@
 
 #include "HEngine_s.h"
 #include <algorithm>
-#include <iostream>
+
 namespace hengine
 {
 
-/**
- * Precomputed masks for rcut()
- */
 const Number rcut_m1[] = {
         0b1111111111111111111111111111111111111111111111111111111111111111
     };
@@ -124,7 +121,14 @@ const int rcut_sh8[] = {
         0
     };
 
+/**
+ * Precomputed masks for rcut()
+ */
 const Number* rcut_m[] = { rcut_m1, rcut_m2, rcut_m3, rcut_m4, rcut_m5, rcut_m6, rcut_m7, rcut_m8 };
+
+/**
+ * Precomputed shifts after applying masks. Means count of zeros after a mask
+ */
 const int* rcut_sh[] = { rcut_sh1, rcut_sh2, rcut_sh3, rcut_sh4, rcut_sh5, rcut_sh6, rcut_sh7, rcut_sh8 };
 
 NumTable HEngine_s::rcut( const BinStr &item ) const

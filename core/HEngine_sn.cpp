@@ -6,8 +6,6 @@
 
 #include <algorithm>
 #include "HEngine_sn.h"
-#include <iostream>
-#include <sstream>
 
 namespace hengine
 {
@@ -37,9 +35,8 @@ void HEngine_sn::build( const NumTable& db )
 
         bloom_parameters parameters;
         parameters.projected_element_count = db.size();
-        parameters.false_positive_probability = 0.1; // 1 in 10000
+        parameters.false_positive_probability = 0.3;
 
-        // Simple randomizer (optional)
         parameters.random_seed = i;
         parameters.compute_optimal_parameters();
         m_filters.push_back( new bloom_filter( parameters ) );
@@ -58,7 +55,6 @@ void HEngine_sn::build( const NumTable& db )
             }
         }
     }
-
 
     sortSignatureSet( m_set );
 }

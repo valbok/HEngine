@@ -4,7 +4,6 @@
  * @license GNU GPL v2
  */
 
-
 /**
  * Non recursive implementation of HEngine using predefined hamming distance bound
  */

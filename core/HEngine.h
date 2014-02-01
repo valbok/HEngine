@@ -14,7 +14,6 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <iostream>
 
 namespace hengine
 {
@@ -40,8 +39,8 @@ typedef std::vector<Number> NumTable;
 typedef std::vector<BinStr> BinTable;
 
 /**
- * Result of querying.
- * List of found strings and its hamming distance to requested one.
+ * Result of searching.
+ * List of found strings and its hamming distance to requested string.
  */
 typedef std::map<Number, unsigned> Matches;
 

@@ -5,7 +5,7 @@
  */
 
 /**
- * Abstract implementation of HEngine using static predefined hamming dinstance bound
+ * Abstract implementation of HEngine using static/predefined hamming dinstance bound
  */
 
 #ifndef HENGINE_S_H
@@ -16,7 +16,6 @@
 
 #include <math.h>
 #include <iterator>
-#include <iostream>
 
 namespace hengine
 {
@@ -28,7 +27,7 @@ namespace hengine
 typedef std::vector<NumTable> Permutations;
 
 /**
- * Original string and list of permuted by segmentation factor
+ * Original string and first substring from a list of permuted by segmentation factor
  */
 typedef std::pair<Number, Number> Pair;
 
@@ -47,7 +46,6 @@ class HEngine_s: public HEngine
 {
 
 protected:
-
     /**
      * Hamming distance bound
      */
@@ -86,9 +84,7 @@ protected:
         m_r = r != 0 ? r : floor( ( ( m_k / 2.f ) + 1.f ) + 0.5 );
     }
 
-
 public:
-
     virtual ~HEngine_s()
     {
         for( unsigned i = 0; i < m_filters.size(); i++ )
@@ -134,6 +130,10 @@ public:
     NumTable generateRange( const BinStr&, const unsigned i = 0 ) const;
     NumTable generateRange( const Number&, const unsigned i = 0 ) const;
 
+    /**
+     * Returns count of bits for sub binary string
+     * @see rcut()
+     */
     unsigned getRCutBitLength( const unsigned i = 0 ) const;
 
     /**
