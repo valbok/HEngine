@@ -4,15 +4,15 @@
  * @license GNU GPL v2
  */
 
+/**
+ * A user will be asked to provide a query to search in a database
+ */
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include <sys/resource.h>
-#include <sys/times.h>
 
 #include "HEngine_sn.h"
 
@@ -82,6 +82,7 @@ int main( int argc, char **argv )
         {
             std::cout << "[" << item.second << "] " << item.first << std::endl;
         }*/
+
         getrusage( RUSAGE_SELF, &stopTime );
         userTime =
                     ( (float) ( stopTime.ru_utime.tv_sec  - startTime.ru_utime.tv_sec ) ) +

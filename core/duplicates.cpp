@@ -4,15 +4,15 @@
  * @license GNU GPL v2
  */
 
+/**
+ * Finds duplicates in a list
+ */
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include <sys/resource.h>
-#include <sys/times.h>
 
 #include "HEngine_sn.h"
 

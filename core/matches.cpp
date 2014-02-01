@@ -4,17 +4,15 @@
  * @license GNU GPL v2
  */
 
+/**
+ * Goes thought all queries and finds matches from a database
+ */
+
 #include <iostream>
 #include <string>
-#include <unordered_set>
 #include <fstream>
 #include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include <sys/resource.h>
-#include <sys/times.h>
-#include <list>
 
 #include "HEngine_sn.h"
 
