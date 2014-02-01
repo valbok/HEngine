@@ -49,6 +49,7 @@ protected:
 
     virtual void TearDown()
     {
+        delete e;
     }
 
     NumTable db;
@@ -115,6 +116,7 @@ protected:
 
     virtual void TearDown()
     {
+        delete e;
     }
 
     NumTable db;
