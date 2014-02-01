@@ -71,3 +71,4 @@ TEST( HEngine, HamminDistance )
     EXPECT_EQ( 34, d );
 
 }
+

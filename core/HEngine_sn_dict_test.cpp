@@ -8,19 +8,9 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <stdlib.h>
-#include <string>
-#include <sstream>
-
-#include <limits.h>
-#include <time.h>
-
-#include <sys/resource.h>
-#include <sys/times.h>
-
 
 using namespace hengine;
+
 
 class SameDictTest: public testing::Test
 {
@@ -37,7 +27,7 @@ protected:
 
             std::istringstream reader( line );
             reader >> h;
-            db.push_back( HEngine::number2BinStr( h ) );
+            db.push_back( h );
         }
 
         dict.close();
@@ -50,7 +40,7 @@ protected:
 
             std::istringstream reader( line );
             reader >> h;
-            query.push_back( HEngine::number2BinStr( h ) );
+            query.push_back( h );
         }
 
         q.close();
@@ -62,10 +52,9 @@ protected:
     {
     }
 
-    BinTable db;
-    BinTable query;
+    NumTable db;
+    NumTable query;
     HEngine_sn e;
-    time_t start_time;
 };
 
 TEST_F( SameDictTest, DictQuery )
@@ -102,7 +91,7 @@ protected:
 
             std::istringstream reader( line );
             reader >> h;
-            db.push_back( HEngine::number2BinStr( h ) );
+            db.push_back( h );
         }
 
         dict.close();
@@ -115,7 +104,7 @@ protected:
 
             std::istringstream reader( line );
             reader >> h;
-            query.push_back( HEngine::number2BinStr( h ) );
+            query.push_back( h );
         }
 
         q.close();
@@ -127,8 +116,8 @@ protected:
     {
     }
 
-    BinTable db;
-    BinTable query;
+    NumTable db;
+    NumTable query;
     HEngine_sn e;
     time_t start_time;
 };
@@ -145,3 +134,4 @@ TEST_F( LennaFaceDictTest, DictQuery )
 
     EXPECT_EQ( query.size(), c );
 }
+

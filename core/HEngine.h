@@ -40,9 +40,9 @@ typedef std::vector<BinStr> BinTable;
 
 /**
  * Result of querying.
- * List of found strings and its hamming distance to requested.
+ * List of found strings and its hamming distance to requested one.
  */
-typedef std::map<BinStr, unsigned> Matches;
+typedef std::map<Number, unsigned> Matches;
 
 class HEngine
 {
@@ -51,9 +51,11 @@ protected:
     /**
      * Original database of strings
      */
-    BinTable m_db;
+    NumTable m_db;
+    HEngine( const HEngine& ) {}
 
 public:
+    HEngine() {}
     virtual ~HEngine() {}
 
     /**
@@ -72,7 +74,7 @@ public:
      * Calculates actual hamming distance between numbers or bin strings
      */
     static Number getHammingDistance( Number, Number );
-    static Number getHammingDistance( BinStr, BinStr );
+    static Number getHammingDistance( BinStr, BinStr, unsigned k = 64 );
 };
 
 } // namespace

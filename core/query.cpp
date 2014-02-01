@@ -38,7 +38,7 @@ int main( int argc, char **argv )
     std::cout << "Reading the dataset ........ ";
     fflush( stdout );
 
-    BinTable db;
+    NumTable db;
     std::ifstream dict;
     dict.open( argv[2], std::ifstream::in );
     while ( getline( dict, line ) )
@@ -47,7 +47,7 @@ int main( int argc, char **argv )
 
         std::istringstream reader( line );
         reader >> h;
-        db.push_back( HEngine::number2BinStr( h ) );
+        db.push_back( h );
     }
 
     std::cout <<  "done. " << db.size() << " hashes" << std::endl;
@@ -65,6 +65,7 @@ int main( int argc, char **argv )
 
     std::cout << std::endl;
     std::cout << "Building time: " << userTime << " seconds" << std::endl;
+    std::cout << std::endl;
 
     Number h;
     while ( true )
@@ -76,10 +77,10 @@ int main( int argc, char **argv )
         Matches res = e.query( h );
 
         std::cout << "Found " << res.size() << " matches" << std::endl;
-        for ( auto &item: res )
+        /*for ( auto &item: res )
         {
-            std::cout << "[" << item.second << "] " << HEngine::binStr2Number( item.first ) << std::endl;
-        }
+            std::cout << "[" << item.second << "] " << item.first << std::endl;
+        }*/
 
         getrusage( RUSAGE_SELF, &stopTime );
         userTime =
@@ -88,24 +89,27 @@ int main( int argc, char **argv )
 
         std::cout << std::endl;
         std::cout << "HEngine query time: " << userTime << " seconds" << std::endl << std::endl;
+        std::cout << std::endl;
+
 
         getrusage( RUSAGE_SELF, &startTime );
-        std::cout << "linear scaninng ... " << std::endl;
+        std::cout << "linear scanning ... " << std::endl;
 
         Matches nt;
+        int c =0;
         for ( auto &item: db )
         {
-            unsigned d = HEngine::getHammingDistance( h, HEngine::binStr2Number( item ) );
+            unsigned d = HEngine::getHammingDistance( h, item );
             if ( d <= k )
             {
-                nt[item] = d;
+                c++;
             }
         }
 
-        std::cout << "Found " << nt.size() << " matches" << std::endl;
+        std::cout << "Found " << c << " matches" << std::endl;
         for ( auto &item: nt )
         {
-            std::cout << "[" << item.second << "] " << HEngine::binStr2Number( item.first ) << std::endl;
+            std::cout << "[" << item.second << "] " << item.first << std::endl;
         }
 
         getrusage( RUSAGE_SELF, &stopTime );
@@ -117,5 +121,5 @@ int main( int argc, char **argv )
         std::cout << "Linear query time: " << userTime << " seconds" << std::endl << std::endl;
     }
 
-
+    return 0;
 }
