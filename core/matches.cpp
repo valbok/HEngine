@@ -105,7 +105,7 @@ int main( int argc, char **argv )
                 ( (float) ( stopTime.ru_utime.tv_sec  - startTime.ru_utime.tv_sec ) ) +
                 ( (float) ( stopTime.ru_utime.tv_usec - startTime.ru_utime.tv_usec ) ) * 1e-6;
 
-    std::cout << "found " << c << " total matches. Query time: " << userTime << " seconds" << std::endl << std::endl;
+    std::cout << "found " << c << " total matches. HEngine query time: " << userTime << " seconds" << std::endl << std::endl;
 
     std::cout << "Searching linear matches ......." << std::endl;
     getrusage( RUSAGE_SELF, &startTime );
