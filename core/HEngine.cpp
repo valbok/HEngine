@@ -22,24 +22,9 @@ std::string HEngine::number2BinStr( Number num )
     return std::bitset<64>( num ).to_string();
 }
 
-Number HEngine::getHammingDistance( BinStr hash1, BinStr hash2, unsigned k )
+Number HEngine::getHammingDistance( BinStr hash1, BinStr hash2 )
 {
-    //return getHammingDistance( binStr2Number( hash1 ), binStr2Number( hash2 ) );
-    Number result = 0;
-    for ( unsigned i = 0; i < hash1.length(); ++i )
-    {
-        if ( hash1[i] != hash2[i] )
-        {
-            result++;
-            if ( result >= k )
-            {
-                break;
-            }
-        }
-
-    }
-
-    return result;
+    return getHammingDistance( binStr2Number( hash1 ), binStr2Number( hash2 ) );
 }
 
 Number HEngine::getHammingDistance( Number hash1, Number hash2 )

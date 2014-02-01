@@ -74,7 +74,7 @@ public:
      * Calculates actual hamming distance between numbers or bin strings
      */
     static Number getHammingDistance( Number, Number );
-    static Number getHammingDistance( BinStr, BinStr, unsigned k = 64 );
+    static Number getHammingDistance( BinStr, BinStr );
 };
 
 } // namespace
