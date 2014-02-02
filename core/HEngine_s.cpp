@@ -203,8 +203,7 @@ NumTable HEngine_s::generateRange( const Number &item, const unsigned i ) const
     unsigned len = getRCutBitLength( i );
     for ( unsigned j = 0; j < len; j++ )
     {
-        unsigned s = 1 << j;
-        Number x = item ^ s;
+        Number x = item ^ ( 1 << j );
         result.push_back( x );
     }
 

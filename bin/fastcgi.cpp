@@ -7,6 +7,7 @@
 #define NO_FCGI_DEFINES
 
 #include <string>
+#include <map>
 #include <stdlib.h>
 #include <sstream>
 #include "fcgi_stdio.h"
@@ -25,12 +26,7 @@ using namespace hengine;
 int main()
 {
     std::string port=":9000";
-
     int listenQueueBacklog = 400;
-
-    //FCGX_Stream *in, *out, *err;
-     //FCGX_ParamArray envp;
-
     if ( FCGX_Init() )
     {
        exit( 1 );
@@ -39,7 +35,7 @@ int main()
     int listen_socket = FCGX_OpenSocket( port.c_str(), listenQueueBacklog );
     if ( listen_socket < 0 )
     {
-       exit(1);
+       exit( 1 );
     }
 
     FCGX_Request request;
@@ -48,8 +44,9 @@ int main()
        exit( 1 );
     }
 
-    std::string header =  "Content-type: text/html\r\n\r\n";
+    std::string header = "Content-type: text/html\r\n\r\n";
     NumTable db;
+    std::map<Number,Number> posts;
     try
     {
         sql::Driver *driver;
@@ -65,7 +62,9 @@ int main()
         res = stmt->executeQuery( "SELECT id, post_id, hash FROM art_image_hash" );
         while ( res->next() )
         {
-            db.push_back( res->getUInt64( "hash" ) );
+            Number h = res->getUInt64( "hash" );
+            db.push_back( h );
+            posts[h] = res->getUInt64( "post_id" );
         }
 
         delete res;
@@ -101,19 +100,19 @@ int main()
             }
         }
 
-        header += "Total " + std::to_string( db.size() ) + " hashes.";
+        std::string body = header;
         int c = 0;
         for ( auto &h: q)
         {
             Matches res = e.query( h );
             c += res.size();
+            for ( auto &r: res )
+            {
+                body += std::to_string( posts[r.first] ) + ":" + std::to_string( r.first ) + ":" + std::to_string( r.second ) + "<br/>";
+            }
         }
-        header += " and found: " + std::to_string( c ) + "<br/>";
-         //FCGX_FPrintF(request.out, "Content-type: text/html\r\n\r\n<TITLE>fastcgi</TITLE>\n<H1>Fastcgi: Hello world.</H1>\n");
 
-        FCGX_PutS( header.c_str(), request.out );
-        //FCGX_FPrintF(request.out, header.c_str() );
-
+        FCGX_PutS( body.c_str(), request.out );
         FCGX_Finish_r( &request );
     }
 
