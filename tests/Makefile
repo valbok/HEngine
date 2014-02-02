@@ -12,7 +12,7 @@ LIB_DIR = ../lib
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
 # the compiler doesn't generate warnings in Google Test headers.
-CPPFLAGS += -isystem $(GTEST_DIR)/include
+CPPFLAGS += -isystem $(GTEST_DIR)/include -I$(USER_DIR)
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g -Wall -Wextra -pthread -std=c++0x
@@ -64,9 +64,9 @@ gtest_main.a : gtest-all.o gtest_main.o
 HEngine.o : $(USER_DIR)/HEngine.cpp $(USER_DIR)/HEngine.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine.cpp
 
-HEngine_test.o : $(USER_DIR)/HEngine_test.cpp \
+HEngine_test.o : HEngine_test.cpp \
                      $(USER_DIR)/HEngine.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_test.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c HEngine_test.cpp
 
 HEngine_test : HEngine.o HEngine_test.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
@@ -75,46 +75,45 @@ HEngine_test : HEngine.o HEngine_test.o gtest_main.a
 HEngine_s.o : $(USER_DIR)/HEngine_s.cpp $(USER_DIR)/HEngine_s.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_s.cpp
 
-HEngine_s_test.o : $(USER_DIR)/HEngine_s_test.cpp \
+HEngine_s_test.o : HEngine_s_test.cpp \
                      $(USER_DIR)/HEngine_s.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_s_test.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c HEngine_s_test.cpp
 
 HEngine_s_test : HEngine.o HEngine_s.o HEngine_sn.o HEngine_s_test.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 
-
 HEngine_sn.o : $(USER_DIR)/HEngine_sn.cpp $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_sn.cpp
 
-HEngine_sn_test.o : $(USER_DIR)/HEngine_sn_test.cpp \
+HEngine_sn_test.o : HEngine_sn_test.cpp \
                      $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_sn_test.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c HEngine_sn_test.cpp
 
 HEngine_sn_test : HEngine.o HEngine_s.o HEngine_sn.o HEngine_sn_test.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-HEngine_sn_dict_test.o : $(USER_DIR)/HEngine_sn_dict_test.cpp \
+HEngine_sn_dict_test.o : HEngine_sn_dict_test.cpp \
                      $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_sn_dict_test.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c HEngine_sn_dict_test.cpp
 HEngine_sn_dict_test :  HEngine.o HEngine_s.o HEngine_sn.o HEngine_sn_dict_test.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 
-query.o : $(USER_DIR)/query.cpp $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/query.cpp
+query.o : query.cpp $(USER_DIR)/HEngine_sn.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c query.cpp
 
 query :  query.o HEngine.o HEngine_s.o HEngine_sn.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
-duplicates.o : $(USER_DIR)/duplicates.cpp $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/duplicates.cpp
+duplicates.o : duplicates.cpp $(USER_DIR)/HEngine_sn.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c duplicates.cpp
 
 duplicates :  duplicates.o HEngine.o HEngine_s.o HEngine_sn.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
 
-matches.o : $(USER_DIR)/matches.cpp $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/matches.cpp
+matches.o : matches.cpp $(USER_DIR)/HEngine_sn.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c matches.cpp
 
 matches :  matches.o HEngine.o HEngine_s.o HEngine_sn.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
