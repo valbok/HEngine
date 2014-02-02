@@ -74,14 +74,9 @@ protected:
      */
     HEngine_s( unsigned k, unsigned r = 0 )
     {
-        init( k, r );
-    }
-
-    void init( unsigned k, unsigned r = 0  )
-    {
         m_k = k;
-        // m_r must not be less than k/2 + 1
-        m_r = r != 0 ? r : floor( ( ( m_k / 2.f ) + 1.f ) + 0.5 );
+        auto sf = calcSegmentationFactor( m_k );
+        m_r = ( r != 0  && r >= sf ) ? r : sf;
     }
 
 public:
@@ -91,6 +86,12 @@ public:
         {
             delete m_filters[i];
         }
+    }
+
+    static unsigned calcSegmentationFactor( unsigned k )
+    {
+        // must not be less than k/2 + 1
+        return floor( ( ( k / 2.f ) + 1.f ) + 0.5 );
     }
 
     /**
