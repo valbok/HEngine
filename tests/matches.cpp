@@ -5,7 +5,7 @@
  */
 
 /**
- * Goes thought all queries and finds matches from a database
+ * Goes through all queries and finds matches from a database
  */
 
 #include <iostream>
