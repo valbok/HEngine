@@ -102,7 +102,7 @@ int main()
 
         std::string body = header;
         int c = 0;
-        for ( auto &h: q)
+        for ( auto &h: q )
         {
             Matches res = e.query( h );
             c += res.size();

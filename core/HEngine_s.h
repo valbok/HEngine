@@ -14,7 +14,6 @@
 #include "HEngine.h"
 #include "../lib/bloom/bloom_filter.hpp"
 
-#include <math.h>
 #include <iterator>
 
 namespace hengine
@@ -76,7 +75,7 @@ protected:
     {
         m_k = k;
         auto sf = calcSegmentationFactor( m_k );
-        m_r = ( r != 0  && r >= sf ) ? r : sf;
+        m_r = ( r != 0  && ( r >= sf || r <= 64 ) ) ? r : sf;
     }
 
 public:
@@ -90,8 +89,7 @@ public:
 
     static unsigned calcSegmentationFactor( unsigned k )
     {
-        // must not be less than k/2 + 1
-        return floor( ( ( k / 2.f ) + 1.f ) + 0.5 );
+        return ( k / 2 ) + 1;
     }
 
     /**

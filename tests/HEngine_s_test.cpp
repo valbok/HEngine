@@ -37,7 +37,7 @@ TEST( HEngine_sn, SegmentationFactor5 )
 {
     HEngine_sn e( 5 );
 
-    EXPECT_EQ( 4, e.getSegmentationFactor() );
+    EXPECT_EQ( 3, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor6 )
@@ -51,7 +51,7 @@ TEST( HEngine_sn, SegmentationFactor7 )
 {
     HEngine_sn e( 7 );
 
-    EXPECT_EQ( 5, e.getSegmentationFactor() );
+    EXPECT_EQ( 4, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor8 )
@@ -65,7 +65,7 @@ TEST( HEngine_sn, SegmentationFactor9 )
 {
     HEngine_sn e( 9 );
 
-    EXPECT_EQ( 6, e.getSegmentationFactor() );
+    EXPECT_EQ( 5, e.getSegmentationFactor() );
 }
 
 TEST( HEngine_sn, SegmentationFactor10 )
@@ -438,4 +438,3 @@ TEST( HEngine_sn, SignatureSearchMultiple )
     EXPECT_EQ( 1000, p[0].first );
     EXPECT_EQ( 1000, p[0].second );
 }
-
