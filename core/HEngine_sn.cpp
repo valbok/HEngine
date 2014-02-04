@@ -35,7 +35,7 @@ void HEngine_sn::build( const NumTable& db )
 
         bloom_parameters parameters;
         parameters.projected_element_count = db.size();
-        parameters.false_positive_probability = 0.3;
+        parameters.false_positive_probability = 0.1;
 
         parameters.random_seed = i;
         parameters.compute_optimal_parameters();
@@ -85,7 +85,7 @@ Matches HEngine_sn::query( const Number &item ) const
                 continue;
             }
 
-            SignatureTable pairs = searchPairs( m_set[i], sub, item, &result, m_k );
+            searchPairs( m_set[i], sub, item, &result, m_k );
         }
     }
 
