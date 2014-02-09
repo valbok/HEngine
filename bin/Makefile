@@ -18,17 +18,17 @@ all : $(FCGI)
 clean :
 	rm -f $(FCGI) *.o
 
-HEngine.o : $(USER_DIR)/HEngine.cpp $(USER_DIR)/HEngine.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine.cpp
+HEngine.o : $(USER_DIR)/HEngine.cpp $(USER_DIR)/HEngine.h
+	$(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine.cpp
 
-HEngine_s.o : $(USER_DIR)/HEngine_s.cpp $(USER_DIR)/HEngine_s.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_s.cpp
+HEngine_s.o : $(USER_DIR)/HEngine_s.cpp $(USER_DIR)/HEngine_s.h
+	$(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_s.cpp
 
-HEngine_sn.o : $(USER_DIR)/HEngine_sn.cpp $(USER_DIR)/HEngine_sn.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_sn.cpp
+HEngine_sn.o : $(USER_DIR)/HEngine_sn.cpp $(USER_DIR)/HEngine_sn.h
+	$(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/HEngine_sn.cpp
 
 fastcgi.o : fastcgi.cpp $(USER_DIR)/HEngine_sn.h
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c fastcgi.cpp
+	$(CPPFLAGS) $(CXXFLAGS) -c fastcgi.cpp
 
 fastcgi :  fastcgi.o HEngine.o HEngine_s.o HEngine_sn.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $^ -lfcgi -lpthread -lmysqlcppconn  -o $@
+	$(CPPFLAGS) $(CXXFLAGS) $^ -lfcgi -lpthread -lmysqlcppconn  -o $@
