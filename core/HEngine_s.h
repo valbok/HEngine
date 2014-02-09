@@ -95,7 +95,7 @@ public:
     /**
      * Constructs m_r duplicates for each signature
      */
-    void build( const NumTable& ) {}
+    virtual void build( const NumTable& ) {}
 
     /**
      * Splits a string into r substrings,
