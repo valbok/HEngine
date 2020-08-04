@@ -203,7 +203,7 @@ NumTable HEngine_s::generateRange( const Number &item, const unsigned i ) const
     unsigned len = getRCutBitLength( i );
     for ( unsigned j = 0; j < len; j++ )
     {
-        Number x = item ^ ( 1 << j );
+        Number x = item ^ ( 1ULL << j );
         result.push_back( x );
     }
 
@@ -241,16 +241,16 @@ SignatureTable HEngine_s::searchPairs( const SignatureTable &table, const Number
         return result;
     }
 
-    unsigned d;
+    unsigned distance;
     for ( auto i = li; i != ui; ++i )
     {
-        d = ( k >= 64 ) ? k : getHammingDistance( item, (*i).first );
-        if ( d <= k )
+        distance = ( k >= 64 ) ? k : getHammingDistance( item, (*i).first );
+        if ( distance <= k )
         {
             result.push_back( *i );
             if ( q != NULL )
             {
-                (*q)[(*i).first] = d;
+                (*q)[(*i).first] = distance;
             }
         }
     }
